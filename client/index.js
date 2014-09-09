@@ -1,17 +1,35 @@
 (function(){
   'use strict';
 
-  angular.module('mean-template', [])
+  angular.module('zombie-pets', [])
   .controller('MainController', ['$scope', '$interval', function($scope, $interval){
-    var occupations = ['Superheroes', 'Ninjas', 'Pirates', 'Vampires', 'Aliens', 'Dragons', 'Sharks with Lasers', 'Transformers', 'I am Groot'];
+    $scope.title = 'Zombie Pets';
 
-    $scope.title = 'Mean Template';
-    $scope.occupation = occupations[0];
+    $scope.weapon = {};
+    $scope.weapons = [];
+    $scope.pet = {health:100};
+    $scope.pets = [];
 
-    $interval(function(){
-      var rnd = Math.floor(Math.random() * occupations.length);
-      $scope.occupation = occupations[rnd];
-    }, 500);
+    $scope.toggleWeapon = function(){
+      $scope.hideWeapon = !!!$scope.hideWeapon;
+    };
+
+    $scope.addWeapon = function(){
+      $scope.weapons.push($scope.weapon);
+      $scope.weapon = {};
+      $('#name').focus();
+    };
+
+    $scope.togglePet = function(){
+      $scope.hidePet = !!!$scope.hidePet;
+    };
+
+    $scope.addPet = function(){
+      $scope.pets.push($scope.pet);
+      $scope.pet = {};
+      $('#petName').focus();
+    };
+
   }]);
 })();
 
