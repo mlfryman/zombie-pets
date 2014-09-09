@@ -6,13 +6,39 @@ input.ng-invalid{
   background-color: #E06666;
 }
 
-.image{
-  height: 90px;
-  width: 110px;
+.weapon{
+  display: inline-block;
+  border: 1px solid #001F3F;
+  margin-bottom: 10px;
+
+  .image{
+    border-bottom: 1px solid #001F3F;
+    background-size: cover;
+    width: 100px;
+    height: 100px;
+  }
 }
-.weapon .name .damage {
-  text-align: center;
-  font-weight: normal;
-  width: 120px;
+
+.pet{
+  display: inline-block;
+  border: 1px solid #001F3F;
+  margin-bottom: 10px;
+
+  .image{
+    border-bottom: 1px solid #001F3F;
+    background-size: cover;
+    width: 150px;
+    height: 150px;
+  }
+}
+.details{
   margin: 5px;
 }
+
+.pull-left {
+  float: left !important;
+}
+.pull-right {
+  float: right !important;
+}
+

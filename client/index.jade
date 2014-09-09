@@ -14,6 +14,54 @@ html(ng-app='zombie-pets', lang='en')
         .col-xs-12
           h1 {{title}}
       .row
+        .col-xs-2
+        .col-xs-8
+          .jumbotron
+            .row
+              .col-xs-12
+                #cage(ng-show='player1 && player2')
+                  h2 Welcome to Thunderdome!
+                  .row
+                    .col-xs-1
+                    .col-xs-4
+                      #player1(ng-show='player1')
+                        .pet(style='background-image: url("{{player1.photo}}")')
+                          .petName {{player1.name}}
+                          .damage Health:{{player1.health}}
+                          .center
+                            .weapon(style='background-image: url("{{player1.weapon.photo}}") ')
+                              .name {{player1.weapon.name}}
+                              .damage {{player1.weapon.damage}}
+                          .center
+                            .healthbar(style='background-color: green; width: {{player1.health}}%; height: 20px')
+                      #player1(ng-show='player1')
+                        .pet.pull-left
+                          .image(style='background-image:url("{{player1.photo}}");')
+                          .details
+                            h6 Name: {{player1.name}}
+                            h6 Health: {{player1.health}}
+                          .center
+                            .weapon(style='background-image: url("{{player1.weapon.photo}}") ')
+                              h6 Weapon: {{player1.weapon.name}}
+                              h6 Damage: {{player1.weapon.damage}}
+                          .center
+                            .healthbar(style='background-color: green; width: {{player1.health}}%; height: 20px')
+                    .col-xs-1
+                      #fight: button.btn.btn-danger(ng-click='fight()') FIGHT
+                    .col-xs-5
+                      #player2(ng-show='player2')
+                        .pet.pull-left
+                          .image(style='background-image:url("{{player2.photo}}");')
+                          .details
+                            h6 Name: {{player2.name}}
+                            h6 Health: {{player2.health}}
+                          .center
+                            .weapon(style='background-image: url("{{player2.weapon.photo}}") ')
+                              h6 Weapon: {{player2.weapon.name}}
+                              h6 Damage: {{player2.weapon.damage}}
+                          .center
+                            .healthbar(style='background-color: green; width: {{player1.health}}%; height: 20px')
+      .row
         .col-xs-3
           h4 Create Weapon
           button.btn.btn-success(ng-click='toggleWeapon()') Toggle Form
@@ -28,6 +76,8 @@ html(ng-app='zombie-pets', lang='en')
               label(for='damage') Damage
               input.form-control#damage(required, ng-model='weapon.damage', type='number', name='damage')
             button.btn.btn-primary(type='submit', ng-show='weaponForm.$valid', ng-click='addWeapon()') Add Weapon
+        .col-xs-6
+      .row
         .col-xs-3
           h4 Create Pet
           button.btn.btn-success(ng-click='togglePet()') Toggle Pet Form
@@ -44,21 +94,34 @@ html(ng-app='zombie-pets', lang='en')
             .form-group
               label(for='weapon') Choose Weapon
                 select#weapon(name='weapon', ng-model='pet.weapon')
-                  option(ng-repeat='w in weapons') {{w.name}}
+                  option(ng-repeat='w in weapons', value='{{$index}}') {{w.name}}
             button.btn.btn-primary(type='submit', ng-show='petForm.$valid', ng-click='addPet()') Add Pet
         .col-xs-6
       .row
         .col-xs-12
           .weapon(ng-repeat='w in weapons')
             .image(style='background-image:url("{{w.photo}}");')
-              .name {{w.name}}
-              .damage {{w.damage}}
+            .details
+              h6 Name: {{w.name}}
+              h6 Damage: {{w.damage}}
       .row
         .col-xs-12
+          .pet(ng-repeat='p in pets')
+            .image(style='background-image:url("{{p.photo}}");')
+            .details
+              h6 Name: {{p.name}}
+              h6 Health: {{p.health}}
+              h6 Weiapon: {{p.weapon.name}}
+              button.btn.btn-xs.btn-danger.pull-lefti(ng-click='setPlayer(1)') 1
+              button.btn.btn-xs.btn-danger.pull-right(ng-click='setPlayer(2)') 2
+      .row
+        .col-xs-6
           pre {{weapon | json}}
           pre {{weapons | json}}
           pre {{pet | json}}
           pre {{pets | json}}
+          pre {{player1 | json}}
+          pre {{player2 | json}}
 
     script(src='/vendor/angular/angular.js')
     script(src='/vendor/jquery/dist/jquery.js')
