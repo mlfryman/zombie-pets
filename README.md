@@ -1,2 +1,2 @@
-mean-template
+Zombie Pets
 =============
