@@ -3,31 +3,47 @@
 
   angular.module('zombie-pets', [])
   .controller('MainController', ['$scope', function($scope){
+
     $scope.title = 'Zombie Pets';
 
-    $scope.player1 = null;
-    $scope.player2 = null;
+    //toggle weapon form
+    $scope.toggleWeapon = function(){
+      $scope.hideWeapon = !!!$scope.hideWeapon;
+    };
 
     //weapon object
     $scope.weapon = {};
     $scope.weapons = [];
 
-    //pet object
-    $scope.pet = {health: 100};
-    $scope.pets = [];
-
-    //add weapon
     $scope.addWeapon = function(){
       $scope.weapons.push($scope.weapon);
       $scope.weapon = {};
+      //focus on first input via jQuery
+      $('#name').focus();
+    };
+
+    //pet object
+    $scope.pet = {con:100};
+    $scope.pets = [];
+
+    //player 1; player 2
+    $scope.player1  = null;
+    $scope.player2  = null;
+
+    //toggle pet form
+    $scope.togglePet = function(){
+      $scope.hidePet = !!!$scope.hidePet;
     };
 
     //add pet
     $scope.addPet = function(){
-      var index = $scope.pet.wIndex * 1;
+      if(!$scope.petForm.$valid){
+        return;
+      }
+      var index = $scope.pet.weapon * 1;
       $scope.pet.weapon = $scope.weapons[index];
       $scope.pets.push($scope.pet);
-      $scope.pet = {health: 100};
+      $scope.pet = {con:100};
     };
 
     //set player
@@ -35,79 +51,76 @@
       $scope['player' + num] = this.p;
     };
 
-    //toggle controls
-    $scope.toggleWeapon = function(){
-      $scope.hideWeapon = !!!$scope.hideWeapon;
-    };
-
-    $scope.togglePet = function(){
-      $scope.hidePet = !!!$scope.hidePet;
+    //con meter
+    $scope.conMeter = function(con){
+      if(con > 10){
+        return {'background-color':'green', 'width':con + '%'};
+      }else{
+        return {'background-color':'red', 'width':con + '%'};
+      }
     };
 
     $scope.fight = function(){
-      var first = Math.ceil(Math.random() * 2),
-      p1Damage = parseInt($scope.player1.weapon.damage),
-      p2Damage = parseInt($scope.player2.weapon.damage);
-
-
-      if(first === 1){
-        //first hit
-        $scope.player2.health -= Math.ceil(Math.random() * p1Damage);
-        //second hit
-        $scope.player1.health -= Math.ceil(Math.random() * p2Damage);
-        checkZombie(2);
-        checkZombie(1);
+      //randomly determine who attacks first
+      var num = Math.floor(Math.random() * 2) + 1,
+          attkr = $scope['player' + num],
+          defdr;
+      if(num === 1){
+        defdr = $scope.player2;
       }else{
-        //second hit
-        $scope.player2.health -= Math.ceil(Math.random() * p2Damage);
-        //first hit
-        $scope.player1.health -= Math.ceil(Math.random() * p1Damage);
-        checkZombie(1);
-        checkZombie(2);
+        defdr = $scope.player1;
       }
 
+      //attkr hits defdr
+      var dmg = Math.floor(Math.random() * attkr.weapon.dmg);
+      defdr.con -= dmg;
+      console.log('attkr' + attkr.name + 'hits for' + dmg);
+      if(defdr.con <= 0){
+        defdr.weapon = {name:'Zombie Bite', dmg:3};
+        defdr.isZombie = true;
+      }
+
+      //defdr hits attkr
+      dmg = Math.floor(Math.random() * defdr.weapon.dmg);
+      attkr.con -= dmg;
+      console.log('defdr ' + defdr.name + ' hits for ' + dmg);
+      if(attkr.con <= 0){
+        attkr.weapon = {name:'Zombie Bite', dmg:3};
+        attkr.isZombie = true;
+      }
     };
 
-    //quick create - WEAPONS
-
-    $scope.createSword = function(type){
-      $scope.weapons.push({name: 'Sword', photo: 'http://img3.wikia.nocookie.net/__cb20130105175556/runescape/images/5/5f/Mithril_sword_detail.png', damage: '12'});
-    };
-
-    $scope.createMachine = function(){
-      $scope.weapons.push({name: 'Machine Gun', photo: 'http://www.defensereview.com/wp-content/uploads/2012/03/Israel_Weapon_Industries_IWI_Negev_NG7_Lightweight_Select-Fire_7.62x51mm_NATO_Medium_Machine_Gun_MMG_GPMG_1_small.jpg', damage: '30'});
-    };
-
-    $scope.createFlail = function(){
-      $scope.weapons.push({name: 'Flail', photo: 'http://www.theskyfullofdust.co.uk/wp-content/uploads/2011/03/18649.jpg', damage: '20'});
-    };
-
-    //quick create - PETS
-
-    $scope.createBaxter = function(){
+    //test data: PETS
+    $scope.createTribble = function(){
       $scope.pets.push({
-        name: 'Baxter',
-        photo: 'http://www.thefoundist.com/wp-content/uploads/2011/10/baxter_anchorman.jpg',
-        health: 100,
-        weapon: {name: 'Flail', photo: 'http://www.theskyfullofdust.co.uk/wp-content/uploads/2011/03/18649.jpg', damage: '20'}
+        name: 'Tribble',
+        photo: 'http://blog.al.com/techcetera/2008/12/tribble.jpg',
+        con: 100,
+        weapon: {name: 'Bat\'leth', photo: 'http://www.myatmarket.com/pics/63500/63500736.jpg', damage: '50'}
       });
     };
 
-    $scope.createHoneyBadger = function(){
+    $scope.createSloth = function(){
       $scope.pets.push({
-        health: 100,
-        name: 'Badger',
-        photo: 'http://www.factzoo.com/sites/all/img/mammals/weasel/honey-badger-dont-care-just-chillin.jpg',
-        weapon: {name: 'Machine Gun', photo: 'http://www.defensereview.com/wp-content/uploads/2012/03/Israel_Weapon_Industries_IWI_Negev_NG7_Lightweight_Select-Fire_7.62x51mm_NATO_Medium_Machine_Gun_MMG_GPMG_1_small.jpg', damage: '30'}
+        name: 'Fancy Sloth',
+        photo: 'http://static.tumblr.com/avmpw3e/Xocl71v0m/sloth.gif',
+        con: 100,
+        weapon: {name: 'lightsaber', photo: 'http://www.gadgetreview.com/wp-content/uploads/2011/11/Lightsaber-650x594.jpg', damage: '75'}
       });
     };
 
-    function checkZombie(num){
-      if($scope['player' + num].health < 0) {
-        $scope['player' + num].photo = 'http://zombieportraits.com/wp-content/uploads/2012/08/Mister-Magotpaws-Zombie-Pet-Portrait.jpg';
-        $scope['player' + num].weapon.damage = 3;
-      }
-      else { return; }
-      }
-    }]);
-  })();
+    //test data: WEAPONS
+    $scope.createBatleth = function(type){
+      $scope.weapons.push({name: 'Bat\'leth', photo: 'http://www.myatmarket.com/pics/63500/63500736.jpg', damage: '50'});
+    };
+
+    $scope.createLightSaber = function(){
+      $scope.weapons.push({name: 'Lightsaber', photo: 'http://www.gadgetreview.com/wp-content/uploads/2011/11/Lightsaber-650x594.jpg', damage: '75'});
+    };
+
+    $scope.createDTahg = function(){
+      $scope.weapons.push({name: 'D\'Tahg', photo: 'http://www.geekalerts.com/u/Star-Trek-Klingon-Dk-Tahg-Letter-Opener.jpg', damage: '20'});
+    };
+
+  }]);
+})();
