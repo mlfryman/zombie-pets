@@ -96,7 +96,7 @@
         name: 'Tribble',
         photo: 'http://blog.al.com/techcetera/2008/12/tribble.jpg',
         con: 100,
-        weapon: {name: 'Bat\'leth', photo: 'http://www.myatmarket.com/pics/63500/63500736.jpg', damage: '50'}
+        weapon: {name: 'Bat\'leth', photo: 'http://www.myatmarket.com/pics/63500/63500736.jpg', damage: 50}
       });
     };
 
@@ -105,21 +105,21 @@
         name: 'Fancy Sloth',
         photo: 'http://static.tumblr.com/avmpw3e/Xocl71v0m/sloth.gif',
         con: 100,
-        weapon: {name: 'lightsaber', photo: 'http://www.gadgetreview.com/wp-content/uploads/2011/11/Lightsaber-650x594.jpg', damage: '75'}
+        weapon: {name: 'lightsaber', photo: 'http://www.gadgetreview.com/wp-content/uploads/2011/11/Lightsaber-650x594.jpg', damage: 75}
       });
     };
 
     //test data: WEAPONS
     $scope.createBatleth = function(type){
-      $scope.weapons.push({name: 'Bat\'leth', photo: 'http://www.myatmarket.com/pics/63500/63500736.jpg', damage: '50'});
+      $scope.weapons.push({name: 'Bat\'leth', photo: 'http://www.myatmarket.com/pics/63500/63500736.jpg', damage: 50});
     };
 
     $scope.createLightSaber = function(){
-      $scope.weapons.push({name: 'Lightsaber', photo: 'http://www.gadgetreview.com/wp-content/uploads/2011/11/Lightsaber-650x594.jpg', damage: '75'});
+      $scope.weapons.push({name: 'Lightsaber', photo: 'http://www.gadgetreview.com/wp-content/uploads/2011/11/Lightsaber-650x594.jpg', damage: 75});
     };
 
     $scope.createDTahg = function(){
-      $scope.weapons.push({name: 'D\'Tahg', photo: 'http://www.geekalerts.com/u/Star-Trek-Klingon-Dk-Tahg-Letter-Opener.jpg', damage: '20'});
+      $scope.weapons.push({name: 'D\'Tahg', photo: 'http://www.geekalerts.com/u/Star-Trek-Klingon-Dk-Tahg-Letter-Opener.jpg', damage: 20});
     };
 
   }]);

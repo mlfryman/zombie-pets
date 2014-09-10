@@ -66,7 +66,7 @@ html(ng-app='zombie-pets', lang='en')
               label(for='photo') Photo
               input.form-control#photo(required, ng-model='weapon.photo', ng-pattern='/^http/', type='text', name='photo')
             .form-group
-              label(for='dmg') HP
+              label(for='dmg') Hit Points
               input.form-control#dmg(required, ng-model='weapon.dmg', type='number', name='dmg')
             button.btn.btn-primary(type='submit', ng-show='weaponForm.$valid', ng-click='addWeapon()') Add Weapon
         .col-xs-6
